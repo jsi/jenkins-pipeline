@@ -1,0 +1,13 @@
+parallel 'good-words': {
+    node('Node-1') {
+        echo 'Nice!'
+        echo 'Beautiful!'
+        echo 'Great!'
+    }
+}, 'bad-words': {
+    node('Node-2') {
+        echo 'Shoot'
+        echo 'Horrible'
+        echo 'Oh no!'
+    }
+}
