@@ -2,8 +2,10 @@ parallel 'good-words': {
     node('Node-1') {
         echo 'Nice!'
         echo 'Beautiful!'
-        echo 'Great!'
-        echo 'Gracious!'
+        timestamps {
+            echo 'Great!'
+            echo 'Gracious!'
+        }
     }
 }, 'bad-words': {
     node('Node-2') {
