@@ -3,6 +3,7 @@ parallel 'good-words': {
         echo 'Nice!'
         echo 'Beautiful!'
         echo 'Great!'
+        echo 'Gracious!'
     }
 }, 'bad-words': {
     node('Node-2') {
