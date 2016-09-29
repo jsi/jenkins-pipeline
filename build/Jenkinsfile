@@ -12,6 +12,12 @@ parallel 'good-words': {
         timestamps {
             echo "Build Tag: ${env.BUILD_TAG}"
         }
+        git url: 'https://github.com/enonic/app-features'
+        def v = version()
+        if (v) {
+            echo "Building version ${v}"
+        }
+
     }
 }, 'bad-words': {
     node('Node-2') {
@@ -25,4 +31,9 @@ parallel 'good-words': {
         }
         echo "Java home: ${env.JAVA_HOME}"
     }
+}
+
+def version() {
+    def matcher = readFile('gradle.properties') =~ 'version = (.+)'
+    matcher ? matcher[0][1] : null
 }
