@@ -1,7 +1,9 @@
 parallel 'good-words': {
     node('Node-1') {
-        echo 'Nice!'
-        echo 'Beautiful!'
+        timestamps {
+            echo 'Nice!'
+            echo 'Beautiful!'
+        }
         timestamps {
             echo 'Great!'
             echo 'Gracious!'
@@ -14,6 +16,8 @@ parallel 'good-words': {
         }
         echo 'Shoot'
         echo 'Horrible'
-        echo 'Oh no!'
+        timestamps {
+            echo 'Oh no!'
+        }
     }
 }
