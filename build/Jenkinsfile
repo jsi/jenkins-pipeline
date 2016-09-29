@@ -9,6 +9,9 @@ parallel 'good-words': {
     }
 }, 'bad-words': {
     node('Node-2') {
+        timestamps {
+            echo 'The build number is: ${BUILD_NUMBER}'
+        }
         echo 'Shoot'
         echo 'Horrible'
         echo 'Oh no!'
