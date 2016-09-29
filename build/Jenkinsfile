@@ -8,16 +8,21 @@ parallel 'good-words': {
             echo 'Great!'
             echo 'Gracious!'
         }
+        echo "Workspace: ${env.WORKSPACE}"
+        timestamps {
+            echo "Build Tag: ${env.BUILD_TAG}"
+        }
     }
 }, 'bad-words': {
     node('Node-2') {
         timestamps {
-            echo "The build number is: ${env.BUILD_NUMBER}"
+            echo "Version: 0.1.${env.BUILD_NUMBER}"
         }
         echo 'Shoot'
         echo 'Horrible'
         timestamps {
             echo 'Oh no!'
         }
+        echo "Gitish: ${env.GIT_COMMIT}"
     }
 }
