@@ -23,6 +23,6 @@ parallel 'good-words': {
         timestamps {
             echo 'Oh no!'
         }
-        echo "Gitish: ${env.GIT_COMMIT}"
+        echo "Java home: ${env.JAVA_HOME}"
     }
 }
