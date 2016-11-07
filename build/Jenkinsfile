@@ -1,6 +1,6 @@
+stage '1'
 parallel 'good-words': {
     node('Node-1') {
-        stage '1-a'
         timestamps {
             echo 'Nice!'
             echo 'Beautiful!'
@@ -22,7 +22,6 @@ parallel 'good-words': {
     }
 }, 'bad-words': {
     node('Node-2') {
-        stage '2-a'
         timestamps {
             echo "Version: 0.1.${env.BUILD_NUMBER}"
         }
@@ -35,9 +34,9 @@ parallel 'good-words': {
     }
 }
 
+stage '2'
 parallel 'new-words': {
     node('Node-1') {
-        stage '1-b'
         sh "./gradlew build"
         timestamps {
             echo 'Fordi, etter, dere, meg, noen og oppmuntret'
@@ -45,7 +44,6 @@ parallel 'new-words': {
     }
 }, 'old-words:': {
     node('Node-2') {
-        stage '2-b'
         timestamps {
             echo 'thi, efter, eder, mig, nogen og vederkveges'
         }
@@ -56,6 +54,7 @@ parallel 'new-words': {
         }
     }
 }
+
 
 def version() {
     def matcher = readFile('gradle.properties') =~ 'version = (.+)'
