@@ -35,10 +35,7 @@ parallel 'good-words': {
 
 parallel 'new-words': {
     node('Node-1') {
-        def v = version()
-        if (v) {
-            echo "Built version ${v}"
-        }
+        sh "./gradlew build"
         timestamps {
             echo 'Fordi, etter, dere, meg, noen og oppmuntret'
         }
