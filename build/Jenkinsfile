@@ -33,6 +33,28 @@ parallel 'good-words': {
     }
 }
 
+parallel 'new-words': {
+    node('Node-1') {
+        def v = version()
+        if (v) {
+            echo "Built version ${v}"
+        }
+        timestamps {
+            echo 'Fordi, etter, dere, meg, noen og oppmuntret'
+        }
+    }
+}, 'old-words:': {
+    node('Node-2') {
+        timestamps {
+            echo 'thi, efter, eder, mig, nogen og vederkveges'
+        }
+        git url: 'https://github.com/purplejs/purplejs'
+        echo 'De blev dog tatt av havesyke'
+        timestamps {
+            echo 'avind ubotferdig'
+        }
+}
+
 def version() {
     def matcher = readFile('gradle.properties') =~ 'version = (.+)'
     matcher ? matcher[0][1] : null
