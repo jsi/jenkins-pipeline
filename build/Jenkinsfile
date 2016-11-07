@@ -1,24 +1,24 @@
-stage '1'
-parallel 'featuresApp-1': {
-    node('Node-1') {
-        echo "Workspace: ${env.WORKSPACE}"
-        timestamps {
-            echo "Build Tag: ${env.BUILD_TAG}"
+stage ('1') {
+    parallel 'featuresApp-1': {
+        node('Node-1') {
+            echo "Workspace: ${env.WORKSPACE}"
+            timestamps {
+                echo "Build Tag: ${env.BUILD_TAG}"
+            }
+            git url: 'https://github.com/enonic/app-features'
+            def v = version()
+            if (v) {
+                echo "Building version ${v}"
+            }
         }
-        git url: 'https://github.com/enonic/app-features'
-        def v = version()
-        if (v) {
-            echo "Building version ${v}"
+    }, 'purpleJS-1': {
+        node('Node-2') {
+            timestamps {
+                echo "Version: 0.1.${env.BUILD_NUMBER}"
+            }
+            echo "Java home: ${env.JAVA_HOME}"
+            git url: 'https://github.com/purplejs/purplejs'
         }
-
-    }
-}, 'purpleJS-1': {
-    node('Node-2') {
-        timestamps {
-            echo "Version: 0.1.${env.BUILD_NUMBER}"
-        }
-        echo "Java home: ${env.JAVA_HOME}"
-        git url: 'https://github.com/purplejs/purplejs'
     }
 }
 
