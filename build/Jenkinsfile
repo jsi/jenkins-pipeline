@@ -57,7 +57,9 @@ parallel 'new-words': {
 
 stage '3'
 node('Node-1') {
-   echo 'Lad oss vederkveges av de gode afslutninger'
+    timestamps {
+        echo 'Lad oss vederkveges af de gode afslutninger'
+    }
 }
 
 
