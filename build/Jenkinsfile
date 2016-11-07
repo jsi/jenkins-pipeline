@@ -1,14 +1,6 @@
 stage '1'
-parallel 'good-words': {
+parallel 'featuresApp-1': {
     node('Node-1') {
-        timestamps {
-            echo 'Nice!'
-            echo 'Beautiful!'
-        }
-        timestamps {
-            echo 'Great!'
-            echo 'Gracious!'
-        }
         echo "Workspace: ${env.WORKSPACE}"
         timestamps {
             echo "Build Tag: ${env.BUILD_TAG}"
@@ -20,37 +12,25 @@ parallel 'good-words': {
         }
 
     }
-}, 'bad-words': {
+}, 'purpleJS-1': {
     node('Node-2') {
         timestamps {
             echo "Version: 0.1.${env.BUILD_NUMBER}"
         }
-        echo 'Shoot'
-        echo 'Horrible'
-        timestamps {
-            echo 'Oh no!'
-        }
         echo "Java home: ${env.JAVA_HOME}"
+        git url: 'https://github.com/purplejs/purplejs'
     }
 }
 
 stage '2'
-parallel 'new-words': {
+parallel 'featuresApp-2': {
     node('Node-1') {
         sh "./gradlew build"
-        timestamps {
-            echo 'Fordi, etter, dere, meg, noen og oppmuntret'
-        }
     }
-}, 'old-words:': {
+}, 'purpleJS-2': {
     node('Node-2') {
         timestamps {
-            echo 'thi, efter, eder, mig, nogen og vederkveges'
-        }
-        git url: 'https://github.com/purplejs/purplejs'
-        echo 'De blev dog tatt av havesyke'
-        timestamps {
-            echo 'avind ubotferdig'
+            echo 'Purple JS is awesome!'
         }
     }
 }
