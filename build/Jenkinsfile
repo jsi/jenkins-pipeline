@@ -53,6 +53,7 @@ parallel 'new-words': {
         timestamps {
             echo 'avind ubotferdig'
         }
+    }
 }
 
 def version() {
