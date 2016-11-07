@@ -35,10 +35,11 @@ parallel 'featuresApp-2': {
     }
 }
 
-node('Node-1') {
-    stage '3'
-    timestamps {
-        echo 'Lad oss vederkveges af de gode afslutninger'
+stage '3': {
+    node('Node-1') {
+        timestamps {
+            echo 'Lad oss vederkveges af de gode afslutninger'
+        }
     }
 }
 
