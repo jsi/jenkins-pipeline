@@ -1,6 +1,4 @@
 stage ('1') {
-    parallel 'featuresApp-1': {
-        node('Node-1') {
             echo "Workspace: ${env.WORKSPACE}"
             timestamps {
                 echo "Build Tag: ${env.BUILD_TAG}"
@@ -11,39 +9,18 @@ stage ('1') {
                 echo "Building version ${v}"
             }
         }
-    }, 'purpleJS-1': {
-        node('Node-2') {
+
+stage ('2') {
             timestamps {
                 echo "Version: 0.1.${env.BUILD_NUMBER}"
             }
             echo "Java home: ${env.JAVA_HOME}"
             git url: 'https://github.com/purplejs/purplejs'
-        }
     }
-}
-
-stage ('2') {
-    parallel 'featuresApp-2': {
-        node('Node-1') {
-            sh "./gradlew --daemon build"
-        }
-    }, 'purpleJS-2': {
-        node('Node-2') {
-            timestamps {
-                echo 'Purple JS is awesome!'
-            }
-        }
-    }
-}
 
 stage ('3') {
-    node ('Node-1') {
-        timestamps {
-            echo 'Lad oss vederkveges af de gode afslutninger'
-        }
-    }
+            sh "./gradlew --daemon build"
 }
-
 
 def version() {
     def matcher = readFile('gradle.properties') =~ 'version = (.+)'
