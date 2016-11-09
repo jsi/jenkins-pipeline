@@ -18,12 +18,19 @@ stage ('1') {
 }
 
 stage ('2') {
-    node ('Node-1') {
+    parallel {
+        node ('Node-1') {
             timestamps {
                 echo "Version: 0.1.${env.BUILD_NUMBER}"
             }
             echo "Java home: ${env.JAVA_HOME}"
             git url: 'https://github.com/purplejs/purplejs'
+        }
+    }, {
+        node ('Node-2') {
+            def m3Home = tool 'M3'
+            echo m3Home
+        }
     }
 }
 
