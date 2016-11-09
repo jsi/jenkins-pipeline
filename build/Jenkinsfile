@@ -11,7 +11,7 @@ stage ('1') {
             git url: 'https://github.com/enonic/app-features'
             def v = version()
             if (v) {
-                def message = concat("Building version", v)
+                def message = concat("Building version ", v)
                 echo message
             }
         }
@@ -29,7 +29,9 @@ stage ('2') {
 
 stage ('3') {
     node ('Node-1') {
-            sh "./gradlew --daemon build"
+        sh "./gradlew --daemon build"
+        def dockerHome = tool 'Docker'
+        echo dockerHome
     }
 }
 
