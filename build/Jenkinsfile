@@ -30,7 +30,7 @@ stage ('2') {
 stage ('3') {
     node ('Node-1') {
         sh "./gradlew --daemon build"
-        def dockerHome = tool 'Docker'
+        def dockerHome = tool 'docker'
         echo dockerHome
     }
 }
