@@ -14,7 +14,15 @@ stage ('1') {
                 def message = concat("Building version ", v)
                 echo message
             }
+        echo "Plugins used:"
+        new File('build.gradle').eachLine { line ->
+           if (line.startsWith("apply plugin:")) {
+               timestamps {
+                   println line.substring(13)
+               }
+           } 
         }
+    }
 }
 
 stage ('2') {
