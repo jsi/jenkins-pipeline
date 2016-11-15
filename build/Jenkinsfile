@@ -1,26 +1,18 @@
-java.lang.String concat(String a, String b) {
+String concat(String a, String b) {
     a + b;
 }
 
 stage ('1') {
     node('Node-1') {
-            echo "Workspace: ${env.WORKSPACE}"
-            timestamps {
-                echo "Build Tag: ${env.BUILD_TAG}"
-            }
-            git url: 'https://github.com/enonic/app-features'
-            def v = version()
-            if (v) {
-                def message = concat("Building version ", v)
-                echo message
-            }
-        echo "Plugins used:"
-        new File('build.gradle').eachLine { line ->
-           if (line.startsWith("apply plugin:")) {
-               timestamps {
-                   println line.substring(13)
-               }
-           } 
+        echo "Workspace: ${env.WORKSPACE}"
+        timestamps {
+            echo "Build Tag: ${env.BUILD_TAG}"
+        }
+        git url: 'https://github.com/enonic/app-features'
+        def v = version()
+        if (v) {
+            def message = concat("Building version ", v)
+            echo message
         }
     }
 }
