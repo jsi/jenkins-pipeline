@@ -3,7 +3,7 @@ String concat(String a, String b) {
 }
 
 stage ('1') {
-    parallel 'pull-app-features':{
+    parallel 'pull-features-app':{
         node('Node-1') {
             echo "Workspace: ${env.WORKSPACE}"
             echo "Build Tag: ${env.BUILD_TAG}"
