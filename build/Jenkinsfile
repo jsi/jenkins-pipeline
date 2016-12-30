@@ -3,11 +3,12 @@ String concat(String a, String b) {
 }
 
 stage ('1') {
+    parallel 'pull-app-features':{
         node('Node-1') {
             echo "Workspace: ${env.WORKSPACE}"
-            timestamps {
-                echo "Build Tag: ${env.BUILD_TAG}"
-            }
+            echo "Build Tag: ${env.BUILD_TAG}"
+            echo "Version: 0.1.${env.BUILD_NUMBER}"
+            echo "Java home: ${env.JAVA_HOME}"
             git url: 'https://github.com/enonic/app-features'
             def v = version()
             if (v) {
@@ -15,32 +16,52 @@ stage ('1') {
                 echo message
             }
         }
+    }, 'pull-purple-js':{
+        node ('Node-2') {
+            echo "Workspace: ${env.WORKSPACE}"
+            echo "Build Tag: ${env.BUILD_TAG}"
+            echo "Version: 0.1.${env.BUILD_NUMBER}"
+            echo "Java home: ${env.JAVA_HOME}"
+            git url: 'https://github.com/purplejs/purplejs'
+            if (v) {
+                def message = concat("Building version ", v)
+                echo message
+            }
+        }
+    } 
 }
 
 stage ('2') {
-    parallel 'pull-purple-js':{
+    parallel 'install-maven3-n1':{
         node ('Node-1') {
             timestamps {
-                echo "Version: 0.1.${env.BUILD_NUMBER}"
+                def m3Home = tool 'M3'
+                echo m3Home
             }
-            echo "Java home: ${env.JAVA_HOME}"
-            git url: 'https://github.com/purplejs/purplejs'
         }
-    }, 'install-maven3':{
+    }, 'install-maven3-n2':{
         node ('Node-2') {
-            def m3Home = tool 'M3'
-            echo m3Home
+            timestamps {
+                def m3Home = tool 'M3'
+                echo m3Home
+            }
         }
     }
 }
 
 stage ('3') {
-    node ('Node-1') {
-        sh "./gradlew --daemon build"
-        def gradleHome = tool 'Gradle'
-        echo gradleHome
-        def m3Home = tool 'M3'
-        echo m3Home
+    parallel 'build-app-features':{
+        node ('Node-1') {
+            sh "./gradlew --daemon build"
+            def gradleHome = tool 'Gradle'
+            echo gradleHome
+        }
+    }, 'build-purple-js':{
+        node ('Node-2') {
+            sh "./gradlew --daemon build"
+            def gradleHome = tool 'Gradle'
+            echo gradleHome
+        }
     }
 }
 
