@@ -23,6 +23,7 @@ stage ('1') {
             echo "Version: 0.1.${env.BUILD_NUMBER}"
             echo "Java home: ${env.JAVA_HOME}"
             git url: 'https://github.com/purplejs/purplejs'
+            def v = version()
             if (v) {
                 def message = concat("Building version ", v)
                 echo message
