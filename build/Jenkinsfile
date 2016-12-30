@@ -3,7 +3,7 @@ String concat(String a, String b) {
 }
 
 stage ('1') {
-    parallel (‘pull-app-features’ : {
+    parallel ‘pull-app-features’ {
         node('Node-2') {
             echo "Workspace: ${env.WORKSPACE}"
             timestamps {
@@ -16,7 +16,7 @@ stage ('1') {
                 echo message
             }
         }
-    }, 'pull-purple-js' : {
+    }, 'pull-purple-js' {
         node ('Node-1') {
             timestamps {
                 echo "Version: 0.1.${env.BUILD_NUMBER}"
@@ -29,37 +29,37 @@ stage ('1') {
                 echo message
             }
         }
-    })
+    }
 }
 
 stage ('2') {
-    parallel (‘install-maven3-n1’ : {
+    parallel ‘install-maven3-n1’ {
         node ('Node-1’) {
             def m3Home = tool 'M3'
             echo m3Home
         }
-    }, ‘install-maven3-n2’ : {
+    }, ‘install-maven3-n2’ {
         node ('Node-2') {
             def m3Home = tool 'M3'
             echo m3Home
         }
-    })
+    }
 }
 
 stage ('3') {
-    parallel (‘build-app-features’ : {
+    parallel ‘build-app-features’ {
         node ('Node-1') {
             sh "./gradlew --daemon build"
             def gradleHome = tool 'Gradle'
             echo gradleHome
         }
-    }, ‘build-purple-js’ : {
+    }, ‘build-purple-js’ {
         node ('Node-2’) {
             sh "./gradlew --daemon build"
             def gradleHome = tool 'Gradle'
             echo gradleHome
         }
-    })
+    }
 }
 
 def version() {
