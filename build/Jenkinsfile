@@ -3,7 +3,7 @@ String concat(String a, String b) {
 }
 
 stage ('1') {
-    node('Node-2’) {
+    node('Node-1’) {
         echo "Workspace: ${env.WORKSPACE}"
         timestamps {
             echo "Build Tag: ${env.BUILD_TAG}"
